@@ -26,9 +26,10 @@ class NoteModel: ObservableObject {
         let response = try await remoteService.getAllNotes()
         switch (response) {
         case .success(let data):
+            let context = localService.container.viewContext
             if !data.isEmpty {
                 data.forEach { noteDto in
-                    saveNoteToLocal(context: localService.container.viewContext, noteDto: noteDto)
+                   saveNoteToLocal(context: context, noteDto: noteDto)
                 }
             }else {
                 //TODO: check if there are some items in core data then sync to server
@@ -63,7 +64,9 @@ class NoteModel: ObservableObject {
                // insert new
                 noteDto.toNote(context: context)
             }
-            try? context.save()
+            if context.hasChanges {
+                try? context.save()
+            }
         } catch {
             print(error.localizedDescription)
         }
