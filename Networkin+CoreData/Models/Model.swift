@@ -10,7 +10,7 @@ import CoreData
 
 @MainActor
 class NoteModel: ObservableObject {
-    @Published var remoteError: String = ""
+    @Published var userInfoMsg: String = ""
     @Published var isLoading = true
     
     let remoteService: RemoteService
@@ -22,22 +22,38 @@ class NoteModel: ObservableObject {
     }
     
     func getAllNotes() async throws {
-        self.isLoading = true
-        let response = try await remoteService.getAllNotes()
-        switch (response) {
-        case .success(let data):
+       setMsgAndLoadStatus(isLoading: true)
+        do {
+            let noteDtos = try await remoteService.getAllNotes()
             let context = localService.container.viewContext
-            if !data.isEmpty {
-                data.forEach { noteDto in
+            
+            if !noteDtos.isEmpty {
+                noteDtos.forEach { noteDto in
                    saveNoteToLocal(context: context, noteDto: noteDto)
                 }
-            }else {
+            } else {
                 //TODO: check if there are some items in core data then sync to server
             }
-            self.isLoading = false
-        case .failure(let error):
-            self.remoteError = error
-            self.isLoading = false
+            setMsgAndLoadStatus(isLoading: false)
+        }catch RemoteError.error(let error){
+            setMsgAndLoadStatus(msg: error, isLoading: false)
+        }
+    }
+    
+    func setMsgAndLoadStatus(msg: String = "", isLoading: Bool) {
+        self.userInfoMsg = msg
+        self.isLoading = isLoading
+    }
+    
+    func insertNote(note: UINote) async throws {
+        setMsgAndLoadStatus(isLoading: true)
+        do {
+            let context = localService.container.viewContext
+            saveNoteToLocal(context: context, noteDto: note.toDto())
+            let message = try await remoteService.insertNote(with: note.toDto())
+            setMsgAndLoadStatus(msg: message, isLoading: false)
+        }catch RemoteError.error(let error){
+            setMsgAndLoadStatus(msg: error, isLoading: false)
         }
     }
     

@@ -36,8 +36,8 @@ extension Note {
             title: self.title ?? "Unknown title",
             content: self.content ?? "Unknown content",
             date: self.date,
-            color: self.color ?? "Unknown color",
-            id: UUID().uuidString
+            color: self.color ?? "",
+            id: self.id ?? UUID().uuidString
         )
     }
 }
