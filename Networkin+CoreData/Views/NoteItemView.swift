@@ -41,6 +41,7 @@ extension Date {
 
 struct NoteItemView: View {
     let note: Note
+    let onPress:()->Void
     
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
@@ -62,13 +63,14 @@ struct NoteItemView: View {
                 }
                 .padding(.bottom, 10)
         }
-       // .frame(maxWidth: .infinity)
+       .frame(maxWidth: .infinity)
         .padding(15)
+        .multilineTextAlignment(.leading)
         .background(Color[note.color ?? "accent"].opacity(0.7))
         .cornerRadius(12)
         .padding()
         .onTapGesture {
-            print("tapped")
+            onPress()
         }
     }
 }
@@ -82,6 +84,6 @@ struct NoteItemView_Previews: PreviewProvider {
         note.content = ""
         note.color = "green"
         note.date = Date().millisecondsSince1970
-        return NoteItemView(note: note)
+        return NoteItemView(note: note, onPress: {})
     }
 }

@@ -36,7 +36,7 @@ extension Color {
 }
 
 struct ColorPickerView: View {
-    let colors = ["green", "teal", "black", "pink", "mint", "purple", "orange", "brown", "indigo", "cyan"]
+    let colors = ["green", "teal", "accent", "pink", "mint", "purple", "orange", "brown", "indigo", "cyan"]
     @Binding var selectedColor: String
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {

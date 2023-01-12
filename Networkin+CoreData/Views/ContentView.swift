@@ -7,17 +7,51 @@
 
 import SwiftUI
 
+enum SheetType: Identifiable {
+    case add
+    case update(Note)
+    
+    var id: Int {
+        switch self {
+        case .add:
+            return 1
+        case .update(_):
+            return 2
+        }
+    }
+}
 struct ContentView: View {
     @EnvironmentObject private var model: NoteModel
-    @FetchRequest(sortDescriptors: []) var notes: FetchedResults<Note>
+    @FetchRequest(sortDescriptors: [SortDescriptor(\.id,  order: SortOrder.reverse)]) var notes: FetchedResults<Note>
     @State private var showSheet = false
-    let columns = [GridItem(.adaptive(minimum: 150), spacing: -15)]
+    @State private var activeSheet: SheetType?
+   let columns = [GridItem(.adaptive(minimum: 150), spacing: 0)]
+    
     var body: some View {
-        NavigationStack {
-            ScrollView {
-                LazyVGrid(columns: columns, alignment: .leading, spacing: 0) {
-                    ForEach(notes) { note in
-                        NoteItemView(note: note)
+        GeometryReader { geo in
+            NavigationStack {
+                if(model.isLoading) {
+                    ProgressView()
+                        .frame(minHeight: geo.size.height)
+                        .frame(width: geo.size.width, alignment: .center)
+                } else {
+                    if notes.isEmpty {
+                        //TODO: add beautiful ui
+                        Text("No item added yet...")
+                            .frame(minHeight: geo.size.height)
+                            .frame(width: geo.size.width, alignment: .center)
+                    }else{
+                        ScrollView(.vertical, showsIndicators: false) {
+                            LazyVGrid(columns: columns, alignment: .leading, spacing: 0) {
+                                ForEach(notes) { note in
+                                    NoteItemView(note: note) {
+                                        activeSheet = .update(note)
+                                    }
+                                    .padding(.vertical, -12)
+                                    .padding(.horizontal, -10)
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -25,7 +59,6 @@ struct ContentView: View {
             .task {
                 do {
                     try await model.getAllNotes()
-                    print("called")
                 }catch {
                     model.setMsgAndLoadStatus(
                         msg: "server encountered an error 🥲",
@@ -35,19 +68,25 @@ struct ContentView: View {
             }
             .toolbar {
                 Button {
-                    showSheet = true
+                    activeSheet = .add
                 } label: {
                     Image(systemName: "plus")
                 }
             }
-            .sheet(isPresented: $showSheet) {
-                NavigationStack {
-                    AddNoteView()
+            .sheet(item: $activeSheet) { sheet in
+                switch sheet {
+                case .add:
+                    NavigationStack {
+                        AddNoteView()
+                    }
+                case .update(let note):
+                    NavigationStack {
+                        AddNoteView(note: note)
+                    }
                 }
             }
         }
-    }
-    
+        }
 }
 
 struct ContentView_Previews: PreviewProvider {

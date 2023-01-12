@@ -19,6 +19,7 @@
 		043A184A296FE3470012449B /* AddNoteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043A1849296FE3470012449B /* AddNoteView.swift */; };
 		043A184C296FE9170012449B /* ColorPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043A184B296FE9170012449B /* ColorPickerView.swift */; };
 		043A184E296FF18B0012449B /* NoteItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043A184D296FF18B0012449B /* NoteItemView.swift */; };
+		043A1850297058250012449B /* TestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043A184F297058240012449B /* TestView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -35,6 +36,7 @@
 		043A1849296FE3470012449B /* AddNoteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNoteView.swift; sourceTree = "<group>"; };
 		043A184B296FE9170012449B /* ColorPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPickerView.swift; sourceTree = "<group>"; };
 		043A184D296FF18B0012449B /* NoteItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteItemView.swift; sourceTree = "<group>"; };
+		043A184F297058240012449B /* TestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -102,6 +104,7 @@
 				043A1849296FE3470012449B /* AddNoteView.swift */,
 				043A184B296FE9170012449B /* ColorPickerView.swift */,
 				043A184D296FF18B0012449B /* NoteItemView.swift */,
+				043A184F297058240012449B /* TestView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -195,6 +198,7 @@
 			files = (
 				042042BA296EA16700215CE0 /* Model.swift in Sources */,
 				042042A4296E946400215CE0 /* ContentView.swift in Sources */,
+				043A1850297058250012449B /* TestView.swift in Sources */,
 				042042A2296E946400215CE0 /* Networkin_CoreDataApp.swift in Sources */,
 				042042B3296E956E00215CE0 /* RemoteService.swift in Sources */,
 				042042B8296EA0D000215CE0 /* models.xcdatamodeld in Sources */,

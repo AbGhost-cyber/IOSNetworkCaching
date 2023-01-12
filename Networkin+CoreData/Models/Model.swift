@@ -13,8 +13,8 @@ class NoteModel: ObservableObject {
     @Published var userInfoMsg: String = ""
     @Published var isLoading = true
     
-    let remoteService: RemoteService
-    let localService: LocalService
+   private let remoteService: RemoteService
+    private let localService: LocalService
     
     init(_ remoteService: RemoteService, _ localService: LocalService) {
         self.remoteService = remoteService
@@ -83,6 +83,7 @@ class NoteModel: ObservableObject {
             if context.hasChanges {
                 try? context.save()
             }
+            
         } catch {
             print(error.localizedDescription)
         }

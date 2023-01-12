@@ -13,9 +13,11 @@ struct Networkin_CoreDataApp: App {
     @StateObject  private var localService = LocalService.shared
     var body: some Scene {
         WindowGroup {
-            ContentView()
-                .environment(\.managedObjectContext, localService.container.viewContext)
-                .environmentObject(NoteModel(remoteService, localService))
+            NavigationStack {
+                ContentView()
+                    .environment(\.managedObjectContext, localService.container.viewContext)
+                    .environmentObject(NoteModel(remoteService, localService))
+            }
         }
     }
 }
