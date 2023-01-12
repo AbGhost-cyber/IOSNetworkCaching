@@ -16,19 +16,9 @@ struct ContentView: View {
         NavigationStack {
             ScrollView {
                 LazyVGrid(columns: columns, alignment: .leading, spacing: 0) {
-                    ForEach(0..<2) { j in
-                        Section {
-                            let num = j == 0 ? 2 : 10
-                            ForEach(0..<num) {i in
-                                NoteItemView(index: i)
-                            }
-                        } header: {
-                            Text(j == 0 ? "Pinned" : "Others")
-                                .foregroundColor(.black.opacity(0.5))
-                                .padding(.leading, 15)
-                        }
+                    ForEach(notes) { note in
+                        NoteItemView(note: note)
                     }
-                   
                 }
             }
             .navigationTitle("Notes")

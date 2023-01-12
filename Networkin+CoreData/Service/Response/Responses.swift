@@ -14,7 +14,7 @@ struct SimpleResponse: Codable {
 }
 struct NoteDTO: Codable, Identifiable {
     let title: String
-    let content: String
+    let content: String?
     let date: Int64
     let color: String
     let id: String

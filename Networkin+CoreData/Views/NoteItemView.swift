@@ -6,20 +6,56 @@
 //
 
 import SwiftUI
+import CoreData
+
+
+extension Date {
+    var millisecondsSince1970: Int64 {
+        Int64((self.timeIntervalSince1970 * 1000.0).rounded())
+    }
+    
+    init(milliseconds: Int64) {
+        self = Date(timeIntervalSince1970: TimeInterval(milliseconds) / 1000)
+    }
+    var customFormat: String {
+        let calendar = Calendar.current
+        var formattedValue = ""
+        if calendar.isDateInToday(self) {
+            formattedValue += "Today"
+        }else if calendar.isDateInTomorrow(self) {
+            formattedValue += "Tomorrow"
+        } else if calendar.isDateInYesterday(self) {
+            formattedValue += "Yesterday"
+        }else if calendar.isDateInWeekend(self) {
+            formattedValue += self.formatted(.dateTime.weekday())
+        }
+        if formattedValue.isEmpty {
+            formattedValue = self.formatted(.dateTime.day())
+            formattedValue += " \(self.formatted(.dateTime.month().year(.twoDigits).hour().minute()))"
+        }else {
+            formattedValue += ", \(self.formatted(.dateTime.hour().minute()))"
+        }
+        return formattedValue
+    }
+}
 
 struct NoteItemView: View {
-    let colors = ["green", "teal", "accent", "pink", "mint", "purple", "orange", "brown", "indigo", "cyan"]
-    var index = 0
+    let note: Note
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
-            Text(index == 2 ? "Birthday Party Preparations": "Team Meeting")
+            Text(note.title ?? "unknown")
                 .fontWeight(.bold)
                 .font(.title3)
                 .lineLimit(2)
-            Text(index == 2 ? "": "Planning sprint log for next product design update")
-                .lineLimit(3)
-            Text("5 Sept, 4:30")
+            if note.content != nil {
+                Text(note.content!)
+                    .lineLimit(3)
+            }
+               
+            Text(Date(milliseconds: note.date).customFormat)
                 .padding(5)
+                .font(.caption)
                 .overlay {
                     RoundedRectangle(cornerRadius: 6)
                         .stroke(Color.black)
@@ -28,14 +64,24 @@ struct NoteItemView: View {
         }
        // .frame(maxWidth: .infinity)
         .padding(15)
-        .background(Color[colors[index]].opacity(0.7))
+        .background(Color[note.color ?? "accent"].opacity(0.7))
         .cornerRadius(12)
         .padding()
+        .onTapGesture {
+            print("tapped")
+        }
     }
 }
 
 struct NoteItemView_Previews: PreviewProvider {
+    @Environment(\.managedObjectContext) static var context
     static var previews: some View {
-        NoteItemView()
+        let note = Note(context: context)
+        note.id = UUID().uuidString
+        note.title = "Team Meeting"
+        note.content = ""
+        note.color = "green"
+        note.date = Date().millisecondsSince1970
+        return NoteItemView(note: note)
     }
 }
