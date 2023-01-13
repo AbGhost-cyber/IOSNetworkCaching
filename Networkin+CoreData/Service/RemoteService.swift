@@ -28,8 +28,9 @@ class RemoteService{
         if(noteResponse.success) {
             return noteResponse.data
         }
-        throw RemoteError.error("an unknown error occurred")
+        throw RemoteError.error("couldn't fetch notes")
     }
+    
     func insertNote(with noteDto: NoteDTO) async throws -> String {
         guard let url = URL(string: "/notes", relativeTo: baseURL) else {
             throw RemoteError.error("bad url")

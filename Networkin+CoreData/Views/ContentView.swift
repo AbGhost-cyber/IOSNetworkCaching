@@ -36,25 +36,24 @@ struct ContentView: View {
                         .frame(width: geo.size.width, alignment: .center)
                 } else {
                     if notes.isEmpty {
-                        //TODO: add beautiful ui
                         Text("No item added yet...")
                             .frame(minHeight: geo.size.height)
                             .frame(width: geo.size.width, alignment: .center)
                     }else{
                         ScrollView(.vertical, showsIndicators: false) {
-                            LazyVGrid(columns: columns, alignment: .leading, spacing: 0) {
+                            LazyVGrid(columns: columns, alignment: .leading, spacing: 20) {
                                 ForEach(notes) { note in
                                     NoteItemView(note: note) {
                                         activeSheet = .update(note)
                                     }
-                                    .padding(.vertical, -12)
-                                    .padding(.horizontal, -10)
+                                    .padding([.trailing, .leading], 10)
                                 }
                             }
                         }
                     }
                 }
             }
+        }
             .navigationTitle("Notes")
             .task {
                 do {
@@ -85,7 +84,6 @@ struct ContentView: View {
                     }
                 }
             }
-        }
         }
 }
 

@@ -6,34 +6,6 @@
 //
 
 import SwiftUI
-extension Color {
-    static subscript(name: String) -> Color {
-        switch name {
-        case "green":
-            return Color.green
-        case "teal":
-            return Color.teal
-        case "accent":
-            return Color.accentColor
-        case "pink":
-            return Color.pink
-        case "mint":
-            return Color.mint
-        case "purple":
-            return Color.purple
-        case "orange":
-            return Color.orange
-        case "brown":
-            return Color.brown
-        case "indigo":
-            return Color.indigo
-        case "cyan":
-            return Color.cyan
-        default:
-            return Color.accentColor
-        }
-    }
-}
 
 struct ColorPickerView: View {
     let colors = ["green", "teal", "accent", "pink", "mint", "purple", "orange", "brown", "indigo", "cyan"]
@@ -45,7 +17,7 @@ struct ColorPickerView: View {
                     Button {
                         selectedColor = color
                     } label: {
-                        RoundedRectangle(cornerRadius: 12)
+                        RoundedRectangle(cornerRadius: 6)
                             .fill(Color[color])
                             .frame(width: 50, height: 50)
                             .overlay {

@@ -9,68 +9,42 @@ import SwiftUI
 import CoreData
 
 
-extension Date {
-    var millisecondsSince1970: Int64 {
-        Int64((self.timeIntervalSince1970 * 1000.0).rounded())
-    }
-    
-    init(milliseconds: Int64) {
-        self = Date(timeIntervalSince1970: TimeInterval(milliseconds) / 1000)
-    }
-    var customFormat: String {
-        let calendar = Calendar.current
-        var formattedValue = ""
-        if calendar.isDateInToday(self) {
-            formattedValue += "Today"
-        }else if calendar.isDateInTomorrow(self) {
-            formattedValue += "Tomorrow"
-        } else if calendar.isDateInYesterday(self) {
-            formattedValue += "Yesterday"
-        }else if calendar.isDateInWeekend(self) {
-            formattedValue += self.formatted(.dateTime.weekday())
-        }
-        if formattedValue.isEmpty {
-            formattedValue = self.formatted(.dateTime.day())
-            formattedValue += " \(self.formatted(.dateTime.month().year(.twoDigits).hour().minute()))"
-        }else {
-            formattedValue += ", \(self.formatted(.dateTime.hour().minute()))"
-        }
-        return formattedValue
-    }
-}
-
 struct NoteItemView: View {
     let note: Note
     let onPress:()->Void
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            Text(note.title ?? "unknown")
-                .fontWeight(.bold)
-                .font(.title3)
-                .lineLimit(2)
+        VStack(alignment: .leading, spacing: 5) {
+            if note.title != nil {
+                Text(note.title!)
+                    .fontWeight(.bold)
+                    .font(.headline)
+                    .lineLimit(2)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+            }
             if note.content != nil {
                 Text(note.content!)
                     .lineLimit(3)
+                    .font(.subheadline)
             }
-               
+            
             Text(Date(milliseconds: note.date).customFormat)
                 .padding(5)
                 .font(.caption)
                 .overlay {
                     RoundedRectangle(cornerRadius: 6)
-                        .stroke(Color.black)
+                        .stroke(Color.black.opacity(0.5))
                 }
-                .padding(.bottom, 10)
+                .padding([.bottom, .top], 10)
         }
-       .frame(maxWidth: .infinity)
+        .frame(maxWidth: .infinity)
         .padding(15)
         .multilineTextAlignment(.leading)
-        .background(Color[note.color ?? "accent"].opacity(0.7))
+        .background(Color[note.color ?? "accent"].opacity(0.6))
         .cornerRadius(12)
-        .padding()
+        //.padding(15)
         .onTapGesture {
-            onPress()
+           onPress()
         }
     }
 }

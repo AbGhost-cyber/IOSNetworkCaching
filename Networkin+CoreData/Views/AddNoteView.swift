@@ -14,18 +14,9 @@ struct UINote {
     var date: Int64 = 0
     var color: String = "green"
     var id: String = UUID().uuidString
-    
-    func toDto() -> NoteDTO {
-        return NoteDTO(
-            title: self.title,
-            content: self.content,
-            date: self.date,
-            color: self.color,
-            id: self.id
-        )
-    }
+
     func isInValid() -> Bool {
-        return title.isEmpty
+        return title.isEmpty && content.isEmpty
     }
 }
 struct AddNoteView: View {
@@ -69,7 +60,7 @@ struct AddNoteView: View {
                         do {
                            try await upsertNote()
                         } catch {
-                            print("could add \(error.localizedDescription)")
+                            print("add error: \(error.localizedDescription)")
                         }
                     }
                 } label: {
@@ -83,7 +74,6 @@ struct AddNoteView: View {
                 uiNote.content = note.content ?? ""
                 uiNote.color = note.color ?? "green"
                 uiNote.title = note.title ?? ""
-                uiNote.date = note.date
             }
         }
     }
@@ -92,11 +82,8 @@ struct AddNoteView: View {
         guard !uiNote.isInValid() else {
             return
         }
-        if uiNote.date == 0 {
-            uiNote.date = Date().millisecondsSince1970
-        }
+        uiNote.date = Date().millisecondsSince1970
         try await model.insertNote(note: uiNote)
-       // model.objectWillChange.send()
         print(model.userInfoMsg)
         dismiss()
     }

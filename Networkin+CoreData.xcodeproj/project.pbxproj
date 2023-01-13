@@ -20,6 +20,7 @@
 		043A184C296FE9170012449B /* ColorPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043A184B296FE9170012449B /* ColorPickerView.swift */; };
 		043A184E296FF18B0012449B /* NoteItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043A184D296FF18B0012449B /* NoteItemView.swift */; };
 		043A1850297058250012449B /* TestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043A184F297058240012449B /* TestView.swift */; };
+		04635FF32971300400D9DA95 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04635FF22971300300D9DA95 /* Extensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -37,6 +38,7 @@
 		043A184B296FE9170012449B /* ColorPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPickerView.swift; sourceTree = "<group>"; };
 		043A184D296FF18B0012449B /* NoteItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteItemView.swift; sourceTree = "<group>"; };
 		043A184F297058240012449B /* TestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestView.swift; sourceTree = "<group>"; };
+		04635FF22971300300D9DA95 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,6 +71,7 @@
 		042042A0296E946400215CE0 /* Networkin+CoreData */ = {
 			isa = PBXGroup;
 			children = (
+				04635FF129712FF100D9DA95 /* Extensions */,
 				042042B1296E955900215CE0 /* Models */,
 				042042B0296E954100215CE0 /* Views */,
 				042042AF296E952A00215CE0 /* Service */,
@@ -124,6 +127,14 @@
 				042042BE296EA1DC00215CE0 /* Responses.swift */,
 			);
 			path = Response;
+			sourceTree = "<group>";
+		};
+		04635FF129712FF100D9DA95 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				04635FF22971300300D9DA95 /* Extensions.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -203,6 +214,7 @@
 				042042B3296E956E00215CE0 /* RemoteService.swift in Sources */,
 				042042B8296EA0D000215CE0 /* models.xcdatamodeld in Sources */,
 				043A184C296FE9170012449B /* ColorPickerView.swift in Sources */,
+				04635FF32971300400D9DA95 /* Extensions.swift in Sources */,
 				042042BF296EA1DC00215CE0 /* Responses.swift in Sources */,
 				043A184A296FE3470012449B /* AddNoteView.swift in Sources */,
 				042042BC296EA18600215CE0 /* LocalService.swift in Sources */,

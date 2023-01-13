@@ -47,13 +47,15 @@ class NoteModel: ObservableObject {
     
     func insertNote(note: UINote) async throws {
         setMsgAndLoadStatus(isLoading: true)
+        let context = localService.container.viewContext
         do {
-            let context = localService.container.viewContext
             saveNoteToLocal(context: context, noteDto: note.toDto())
             let message = try await remoteService.insertNote(with: note.toDto())
             setMsgAndLoadStatus(msg: message, isLoading: false)
         }catch RemoteError.error(let error){
             setMsgAndLoadStatus(msg: error, isLoading: false)
+            // insert to core data even if it fails to send to server
+            saveNoteToLocal(context: context, noteDto: note.toDto())
         }
     }
     
